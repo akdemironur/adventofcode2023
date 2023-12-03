@@ -51,9 +51,11 @@ defmodule Day03 do
         do: {x, y}
   end
 
-  defp extract_part_numbers(_, {140, 0}, _, _, part_numbers), do: part_numbers
+  defp extract_part_numbers(board, {r, 0}, _, _, part_numbers) when length(board) == r,
+    do: part_numbers
 
-  defp extract_part_numbers(board, {r, 140}, current_number, is_part_number, part_numbers) do
+  defp extract_part_numbers(board, {r, c}, current_number, is_part_number, part_numbers)
+       when length(hd(board)) == c do
     if is_part_number do
       extract_part_numbers(board, {r + 1, 0}, 0, false, [current_number | part_numbers])
     else
@@ -108,7 +110,7 @@ defmodule Day03 do
       |> Enum.reverse()
 
     right =
-      Enum.slice(row, c + 1, 140)
+      Enum.slice(row, c + 1, length(row) - c - 1)
       |> Enum.take_while(fn x -> x >= 48 and x <= 57 end)
 
     center = Enum.at(row, c, 46)
@@ -126,10 +128,9 @@ defmodule Day03 do
         parse_ratios({r + 1, c}, board) ++
         parse_ratios({r - 1, c}, board)
 
-    if length(all_numbers) == 2 do
-      Enum.product(all_numbers)
-    else
-      0
+    cond do
+      length(all_numbers) == 2 -> Enum.product(all_numbers)
+      true -> 0
     end
   end
 end
