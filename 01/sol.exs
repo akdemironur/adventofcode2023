@@ -2,7 +2,8 @@ defmodule Day01 do
   defp solve(file_path, map) do
     case File.read(file_path) do
       {:ok, content} ->
-        String.split(content, ~r/\n/)
+        content
+        |> String.split(~r/\n/, trim: true)
         |> Enum.map(&extract_calibration_value(&1, map))
         |> Enum.sum()
 
@@ -16,7 +17,6 @@ defmodule Day01 do
 
   def conversion_list_only_digits do
     1..9
-    |> Enum.to_list()
     |> Enum.map(&Integer.to_string/1)
     |> Enum.with_index(1)
   end

@@ -2,7 +2,8 @@ defmodule Day02 do
   def partA(file_path) do
     case File.read(file_path) do
       {:ok, content} ->
-        String.split(String.slice(content, 0..-2), ~r/\n/)
+        content
+        |> String.split(~r/\n/, trim: true)
         |> Enum.map(&parse_line/1)
         |> Enum.filter(fn x -> is_valid_game(x.batches) end)
         |> Enum.map(fn x -> x.gameId end)
