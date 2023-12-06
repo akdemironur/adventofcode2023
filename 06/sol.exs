@@ -14,8 +14,8 @@ defmodule Day06 do
 
   defp ways_to_win(time, distance) do
     disc = :math.sqrt(time * time - 4 * distance)
-    t1 = time + disc / 2
-    t2 = time - disc / 2
+    t1 = (time + disc) / 2.0
+    t2 = (time - disc) / 2.0
     ceil(t1) - floor(t2) - 1
   end
 
