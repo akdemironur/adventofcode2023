@@ -13,23 +13,21 @@ defmodule Day07 do
   end
 
   @cards ~w[J 2 3 4 5 6 7 8 9 T O Q K A]
-  @freq_types [[1, 1, 1, 1, 1], [1, 1, 1, 2], [1, 2, 2], [1, 1, 3], [2, 3], [1, 4], [5]]
   defp hand(h) do
     card_points =
       h |> String.graphemes() |> Enum.map(fn x -> Enum.find_index(@cards, &(&1 == x)) end)
 
-    freq_point =
+    freqs =
       @cards
       |> Enum.filter(fn x -> x != "O" end)
       |> Enum.map(&String.replace(h, "J", &1))
       |> Enum.map(&String.graphemes/1)
       |> Enum.map(&Enum.frequencies/1)
       |> Enum.map(&Map.values/1)
-      |> Enum.map(&Enum.sort/1)
-      |> Enum.map(fn x -> Enum.find_index(@freq_types, &(&1 == x)) end)
+      |> Enum.map(&Enum.sort(&1, :desc))
       |> Enum.max()
 
-    {freq_point, card_points}
+    {freqs, card_points}
   end
 
   defp solve(hands_bids) do
