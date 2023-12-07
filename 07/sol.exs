@@ -20,6 +20,7 @@ defmodule Day07 do
 
     freq_point =
       @cards
+      |> Enum.filter(fn x -> x != "O" end)
       |> Enum.map(&String.replace(h, "J", &1))
       |> Enum.map(&String.graphemes/1)
       |> Enum.map(&Enum.frequencies/1)
@@ -53,5 +54,5 @@ defmodule Day07 do
   end
 end
 
-IO.puts(Day07.partA("input"))
-IO.puts(Day07.partB("input"))
+IO.puts(Day07.partA("./input"))
+IO.puts(Day07.partB("./input"))
