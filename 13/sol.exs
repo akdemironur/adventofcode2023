@@ -45,22 +45,15 @@ defmodule Day13 do
     |> Kernel.==(target)
   end
 
-  def find_mirrorH(pattern, type, target) do
-    Enum.reduce(
-      1..(length(lim_f(type).(pattern, 0)) - 1),
-      nil,
-      fn mirror_loc, acc ->
-        case acc do
-          nil -> if valid_mirror?(pattern, mirror_loc, type, target), do: mirror_loc, else: nil
-          _ -> acc
-        end
-      end
-    )
+  def find_mirror(pattern, type, target) do
+    1..(length(lim_f(type).(pattern, 0)) - 1)
+    |> Enum.drop_while(fn x -> !valid_mirror?(pattern, x, type, target) end)
+    |> Enum.at(0)
   end
 
   def find_mirror(pattern, target) do
-    case find_mirrorH(pattern, :row, target) do
-      nil -> {:col, find_mirrorH(pattern, :col, target)}
+    case find_mirror(pattern, :row, target) do
+      nil -> {:col, find_mirror(pattern, :col, target)}
       x -> {:row, x}
     end
   end
