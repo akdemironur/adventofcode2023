@@ -78,3 +78,6 @@ defmodule Day12 do
     |> (fn {memo, res} -> {memo, res + acc} end).()
   end
 end
+
+IO.puts(Day12.partA("./input"))
+IO.puts(Day12.partB("./input"))
