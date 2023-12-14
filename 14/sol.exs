@@ -54,27 +54,21 @@ defmodule Day14 do
     rotate(tails, acc ++ [Enum.reverse(heads)])
   end
 
-  def calc_load([], _, acc), do: acc
-  def calc_load(["O" | t], i, acc), do: calc_load(t, i + 1, acc + i)
-  def calc_load([_ | t], i, acc), do: calc_load(t, i + 1, acc)
-  def calc_load(l), do: calc_load(l, 1, 0)
-  def calc_all_loads(ll), do: Enum.map(ll, &calc_load/1) |> Enum.sum()
-
-  def tilt_1_cycle(ll) do
-    ll |> tilt_and_rotate() |> tilt_and_rotate() |> tilt_and_rotate() |> tilt_and_rotate()
+  def calc_load(l) do
+    Enum.with_index(l)
+    |> Enum.reduce(0, fn {x, i}, acc -> if(x == "O", do: acc + i + 1, else: acc) end)
   end
 
-  def tilt_n_cycle(ll, n), do: tilt_n_cycle(ll, n, %{n: n})
+  def calc_all_loads(ll), do: Enum.map(ll, &calc_load/1) |> Enum.sum()
+
+  def tilt_1_cycle(ll), do: Enum.reduce(1..4, ll, fn _, acc -> tilt_and_rotate(acc) end)
+
+  def tilt_n_cycle(ll, n), do: tilt_n_cycle(ll, n, %{})
   def tilt_n_cycle(ll, 0, _), do: ll
 
   def tilt_n_cycle(ll, m, memo) do
-    new_m =
-      case is_map_key(memo, ll) do
-        true -> Integer.mod(m, memo[ll] - m) - 1
-        false -> m - 1
-      end
-
-    tilt_n_cycle(ll |> tilt_1_cycle(), new_m, Map.put(memo, ll, m))
+    new_m = if Map.has_key?(memo, ll), do: Integer.mod(m, memo[ll] - m), else: m
+    tilt_n_cycle(tilt_1_cycle(ll), new_m - 1, Map.put(memo, ll, m))
   end
 end
 
