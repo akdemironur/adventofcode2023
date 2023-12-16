@@ -37,7 +37,7 @@ defmodule Day11 do
     |> Enum.filter(fn {row, col} -> get_val({row, col}, space) != "." end)
   end
 
-  def expanded_coordH(row, expansion_rate, empty_rows) do
+  def expanded_coord(row, expansion_rate, empty_rows) do
     empty_rows
     |> Enum.take_while(fn r -> r < row end)
     |> length()
@@ -45,8 +45,8 @@ defmodule Day11 do
   end
 
   def expanded_coord({row, col}, expansion_rate, empty_rows, empty_cols) do
-    {expanded_coordH(row, expansion_rate, empty_rows),
-     expanded_coordH(col, expansion_rate, empty_cols)}
+    {expanded_coord(row, expansion_rate, empty_rows),
+     expanded_coord(col, expansion_rate, empty_cols)}
   end
 
   def distance({row, col}, {row2, col2}) do
