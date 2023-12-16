@@ -19,9 +19,7 @@ defmodule Day16 do
     end
   end
 
-  def apply_vel_to_pos({x, y}, {dx, dy}) do
-    %{pos: {x + dx, y + dy}, vel: {dx, dy}}
-  end
+  def apply_vel_to_pos({x, y}, {dx, dy}), do: %{pos: {x + dx, y + dy}, vel: {dx, dy}}
 
   def next_steps(%{pos: pos, vel: vel}, grid) do
     case get_contraption(grid, pos) do
@@ -79,5 +77,5 @@ defmodule Day16 do
   end
 end
 
-# IO.puts(Day16.partA("./input"))
-# IO.puts(Day16.partB("./input"))
+IO.puts(Day16.partA("./input"))
+IO.puts(Day16.partB("./input"))
