@@ -66,14 +66,14 @@ defmodule Day16 do
     grid = file_path |> read_input()
     gridX = grid |> length()
     gridY = grid |> Enum.at(0) |> String.length()
-
     possStartTop = Enum.map(0..(gridY - 1), fn y -> %{pos: {0, y}, vel: {1, 0}} end)
     possStartBot = Enum.map(0..(gridY - 1), fn y -> %{pos: {gridX - 1, y}, vel: {-1, 0}} end)
     possStartLeft = Enum.map(0..(gridX - 1), fn x -> %{pos: {x, 0}, vel: {0, 1}} end)
     possStartRight = Enum.map(0..(gridX - 1), fn x -> %{pos: {x, gridY - 1}, vel: {0, -1}} end)
-    posStarts = possStartTop ++ possStartBot ++ possStartLeft ++ possStartRight
 
-    posStarts |> Enum.map(&iterate(grid, &1)) |> Enum.max()
+    (possStartTop ++ possStartBot ++ possStartLeft ++ possStartRight)
+    |> Enum.map(&iterate(grid, &1))
+    |> Enum.max()
   end
 end
 
