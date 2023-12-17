@@ -5,13 +5,6 @@ defmodule Day17 do
     |> Enum.map(fn line -> String.graphemes(line) |> Enum.map(&String.to_integer/1) end)
   end
 
-  def get_heat({x, y}, heatmap) do
-    case heatmap |> Enum.at(x) do
-      nil -> nil
-      line -> Enum.at(line, y)
-    end
-  end
-
   def apply_dir_to_pos({x, y}, {dx, dy}), do: {x + dx, y + dy}
   @dirs [{1, 0}, {0, -1}, {-1, 0}, {0, 1}]
 
@@ -24,7 +17,7 @@ defmodule Day17 do
   def next_states(heatmap, grid_lims, costs, min_dist, max_dist, [
         {{pos, dir, dist}, current_cost} | rest
       ]) do
-    new_current_cost = get_heat(pos, heatmap) + current_cost
+    new_current_cost = (heatmap |> elem(elem(pos, 0)) |> elem(elem(pos, 1))) + current_cost
 
     if !(costs |> Map.get({pos, dir, dist}) <= new_current_cost) do
       new_costs = Map.put(costs, {pos, dir, dist}, new_current_cost)
@@ -68,7 +61,7 @@ defmodule Day17 do
   def next_states(heatmap, min_dist, max_dist),
     do:
       next_states(
-        heatmap,
+        heatmap |> Enum.map(&List.to_tuple/1) |> List.to_tuple(),
         {length(heatmap), length(Enum.at(heatmap, 0))},
         %{},
         min_dist,
