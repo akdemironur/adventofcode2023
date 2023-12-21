@@ -87,20 +87,9 @@ defmodule Day19 do
 
   def partB(file_path) do
     {workflows, _} = read_input(file_path)
+    dr = %{h: 4000, l: 1}
 
-    distinct_combs(
-      workflows,
-      [
-        %{
-          :loc => "in",
-          "x" => %{h: 4000, l: 1},
-          "m" => %{h: 4000, l: 1},
-          "a" => %{h: 4000, l: 1},
-          "s" => %{h: 4000, l: 1}
-        }
-      ],
-      0
-    )
+    distinct_combs(workflows, [%{:loc => "in", "x" => dr, "m" => dr, "a" => dr, "s" => dr}], 0)
   end
 
   def distinct_combs(_, [], acc), do: acc
@@ -109,7 +98,6 @@ defmodule Day19 do
         workflows,
         [
           %{
-            :loc => loc,
             "x" => %{h: xh, l: xl},
             "m" => %{h: mh, l: ml},
             "a" => %{h: ah, l: al},
