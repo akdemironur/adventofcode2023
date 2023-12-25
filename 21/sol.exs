@@ -20,7 +20,7 @@ defmodule Day21 do
     {ax, row |> Enum.find_index(&(&1 == "S"))}
   end
 
-  def get_val({x, y}, {grid, {gridX, gridY}}) when x < 0 or y < 0 or x >= gridX or y >= gridY,
+  def get_val({x, y}, {_, {gridX, gridY}}) when x < 0 or y < 0 or x >= gridX or y >= gridY,
     do: nil
 
   def get_val({x, y}, {grid, _}) do
@@ -32,7 +32,7 @@ defmodule Day21 do
     |> Enum.filter(fn a -> get_val(a, grid) == "." end)
   end
 
-  def possible_steps_partB({ax, ay}, {grid, {gridX, gridY}} = g) do
+  def possible_steps_partB({ax, ay}, {_, {gridX, gridY}} = g) do
     [{ax, ay - 1}, {ax, ay + 1}, {ax - 1, ay}, {ax + 1, ay}]
     |> Enum.filter(fn {x, y} ->
       get_val({Integer.mod(x, gridX), Integer.mod(y, gridY)}, g) == "."
@@ -56,7 +56,7 @@ defmodule Day21 do
 
   @k 26_501_365
   def partB(file_path) do
-    {{grid, {gridX, gridY}} = g, starting_point} = read_input(file_path)
+    {{_, {gridX, _}} = g, starting_point} = read_input(file_path)
     n = Integer.mod(@k, gridX)
     f_n = bfs(g, n, [starting_point], &possible_steps_partB/2) |> length()
     f_nx = bfs(g, n + gridX, [starting_point], &possible_steps_partB/2) |> length()
@@ -75,3 +75,6 @@ defmodule Day21 do
     a_0 + a_1 * x + a_2 * x * x
   end
 end
+
+IO.puts(Day21.partA("./input"))
+IO.puts(Day21.partB("./input"))

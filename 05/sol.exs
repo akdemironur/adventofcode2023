@@ -23,7 +23,7 @@ defmodule Day05 do
     sections
     |> Enum.at(n)
     |> String.split("\n", trim: true)
-    |> Enum.slice(1..-1)
+    |> Enum.slice(1..-1//1)
     |> Enum.map(&String.split(&1, " ", trim: true))
     |> Enum.map(fn x -> Enum.map(x, &String.to_integer/1) end)
     |> Enum.sort_by(&Enum.at(&1, 1))

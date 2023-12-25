@@ -17,7 +17,7 @@ defmodule Day02 do
   def partB(file_path) do
     case File.read(file_path) do
       {:ok, content} ->
-        String.split(String.slice(content, 0..-2), ~r/\n/)
+        String.split(String.slice(content, 0..-2//1), ~r/\n/)
         |> Enum.map(&parse_line/1)
         |> Enum.map(&min_required_bag/1)
         |> Enum.map(&Enum.product/1)
@@ -33,7 +33,7 @@ defmodule Day02 do
       line
       |> String.split(": ")
       |> (fn [game_id_str, moves_str] ->
-            {String.to_integer(String.slice(game_id_str, 5..-1)), moves_str}
+            {String.to_integer(String.slice(game_id_str, 5..-1//1)), moves_str}
           end).()
 
     batches =

@@ -84,3 +84,5 @@ defmodule Day25 do
     file_path |> read_input() |> solve()
   end
 end
+
+IO.puts(Day25.partA("./input"))

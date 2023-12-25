@@ -45,7 +45,7 @@ defmodule Day01 do
 
   def find_first_matching_value(string, map) do
     case check_matching(string, map) do
-      nil -> find_first_matching_value(String.slice(string, 1..-1), map)
+      nil -> find_first_matching_value(String.slice(string, 1..-1//1), map)
       val -> val
     end
   end
