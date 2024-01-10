@@ -32,11 +32,7 @@ defmodule Day01 do
   def extract_calibration_value(string, map) do
     first_digit = find_first_matching_value(string, map)
 
-    last_digit =
-      find_first_matching_value(
-        String.reverse(string),
-        Enum.map(map, fn {key, val} -> {String.reverse(key), val} end)
-      )
+    last_digit = find_last_matching_value(string, map)
 
     first_digit * 10 + last_digit
   end
@@ -44,19 +40,28 @@ defmodule Day01 do
   def find_first_matching_value("", _), do: nil
 
   def find_first_matching_value(string, map) do
-    case check_matching(string, map) do
+    case check_matching(string, map, &String.starts_with?/2) do
       nil -> find_first_matching_value(String.slice(string, 1..-1//1), map)
       val -> val
     end
   end
 
-  defp check_matching(_, []), do: nil
+  def find_last_matching_value("", _), do: nil
 
-  defp check_matching(string, [{key, val} | rest]) do
-    if String.starts_with?(string, key) do
+  def find_last_matching_value(string, map) do
+    case check_matching(string, map, &String.ends_with?/2) do
+      nil -> find_last_matching_value(String.slice(string, 0..-2//1), map)
+      val -> val
+    end
+  end
+
+  def check_matching(_, [], _), do: nil
+
+  def check_matching(string, [{key, val} | rest], fun) do
+    if fun.(string, key) do
       val
     else
-      check_matching(string, rest)
+      check_matching(string, rest, fun)
     end
   end
 end
